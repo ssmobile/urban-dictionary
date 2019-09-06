@@ -13,22 +13,11 @@ import android.widget.EditText;
 
 import com.example.urbandictionaryapp.model.ListItem;
 import com.example.urbandictionaryapp.model.UrbanResponse;
-import com.example.urbandictionaryapp.model.datasource.remote.retrofit.OkHttpHelper;
-import com.example.urbandictionaryapp.model.datasource.remote.retrofit.RetrofitHelper;
 import com.example.urbandictionaryapp.model.events.UrbanResponseEvent;
-
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.EventBusException;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.IOException;
 import java.util.List;
-
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     List<ListItem> itemList;
     EditText searchET;
     RecyclerView recyclerView;
+    UrbanAdapter adapter;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         searchET = findViewById(R.id.searchET);
         recyclerView = findViewById(R.id.recycler_view);
+        progressBar = findViewById(R.id.progress_circular);
+
     }
 
     @Override
@@ -74,10 +67,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (adapter==null) {
+            Toast.makeText(this,"Nothing to sort", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        switch (item.getItemId()) {
+            case R.id.thumbsUpMenuItem:
+                Log.d(TAG, "onOptionsItemSelected: ");
+                adapter.sortByThumbsUp();
+                break;
+            case R.id.thumbsDownMenuItem:
+                Log.d(TAG, "onOptionsItemSelected: ");
+                adapter.sortByThumbsDown();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void onClick(View v) {
         if (v.getId() == R.id.search_btn) {
+            recyclerView.setBackground(null);
             String query = searchET.getText().toString();
             new UrbanAsyncTask().execute(query);
         }
     }
+
 }

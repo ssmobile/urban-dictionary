@@ -1,6 +1,7 @@
 package com.example.urbandictionaryapp;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.urbandictionaryapp.model.ListItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -115,6 +119,40 @@ public class UrbanAdapter extends RecyclerView.Adapter<UrbanAdapter.ViewHolder> 
         }
 
         return result;
+    }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    void sortByThumbsUp() {
+
+        Log.d(TAG, "sortByThumbsUp: itemlist:" + itemList.toString());
+        itemList.sort(new Comparator<ListItem>() {
+            @Override
+            public int compare(ListItem listItem, ListItem t1) {
+                return Integer.compare(t1.getThumbsUp(),listItem.getThumbsUp());
+            }
+        });
+
+        Log.d(TAG, "sortByThumbsUp: itemlist:" + itemList.toString());
+
+        notifyDataSetChanged();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    void sortByThumbsDown() {
+
+        Log.d(TAG, "sortByThumbsDown: itemlist:" + itemList.toString());
+        itemList.sort(new Comparator<ListItem>() {
+            @Override
+            public int compare(ListItem listItem, ListItem t1) {
+                return Integer.compare(t1.getThumbsDown(),listItem.getThumbsDown());
+            }
+        });
+
+        Log.d(TAG, "sortByThumbsDown: itemlist:" + itemList.toString());
+
+        notifyDataSetChanged();
     }
 
 }

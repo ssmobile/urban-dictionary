@@ -3,7 +3,7 @@ package com.example.urbandictionaryapp.model;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class ListItem{
+public class ListItem implements Comparable<Integer> {
 
 	@SerializedName("defid")
 	private int defid;
@@ -143,4 +143,10 @@ public class ListItem{
 			",example = '" + example + '\'' + 
 			"}";
 		}
+
+
+	@Override
+	public int compareTo(Integer integer) {
+	    return integer.compareTo(this.getThumbsDown());
+	}
 }

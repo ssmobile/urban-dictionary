@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
   <EditText
       android:id="@+id/searchET"
       android:layout_width="0dp"
@@ -34,9 +35,20 @@
       android:id="@+id/recycler_view"
       android:layout_width="match_parent"
       android:layout_height="0dp"
+      android:background="@drawable/ud_logo"
       app:layout_constraintVertical_weight="12"
       app:layout_constraintTop_toBottomOf="@id/searchET"
       app:layout_constraintBottom_toBottomOf="parent" />
+
+  <ProgressBar
+      android:id="@+id/progress_circular"
+      android:layout_width="60dp"
+      android:layout_height="60dp"
+      android:indeterminate="true"
+      app:layout_constraintTop_toTopOf="@id/searchET"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

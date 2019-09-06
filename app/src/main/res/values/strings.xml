@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UrbanDictionaryApp</string>
+    <string name="thumbs_up">Thumbs Up</string>
+    <string name="thumbs_down">Thumbs Down</string>
 </resources>
