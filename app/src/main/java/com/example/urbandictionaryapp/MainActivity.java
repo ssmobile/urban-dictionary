@@ -1,16 +1,19 @@
 package com.example.urbandictionaryapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.print.PrintHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-
+import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.example.urbandictionaryapp.model.ListItem;
 import com.example.urbandictionaryapp.model.UrbanResponse;
 import com.example.urbandictionaryapp.model.events.UrbanResponseEvent;
@@ -62,8 +65,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onUrbanEvent: itemList: " + itemList.toString());
             Log.d(TAG, "onUrbanEvent: " + urbanResponse.getList().toString());
 
-            recyclerView.setAdapter(new UrbanAdapter(itemList));
+            adapter = new UrbanAdapter(itemList);
+            recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View v) {
         if (v.getId() == R.id.search_btn) {
+            progressBar.setVisibility(View.VISIBLE);
             recyclerView.setBackground(null);
             String query = searchET.getText().toString();
             new UrbanAsyncTask().execute(query);
