@@ -12,7 +12,7 @@ import static com.example.urbandictionaryapp.model.datasource.remote.UrlConstant
 
 public class RetrofitHelper {
 
-    public static final String TAG = "TAG_RetrofitHelper";
+    private static final String TAG = "TAG_RetrofitHelper";
 
     private Retrofit getRetrofitInstance() {
         Log.d(TAG, "getRetrofitInstance: ");

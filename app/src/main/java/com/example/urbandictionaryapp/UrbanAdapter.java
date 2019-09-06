@@ -16,7 +16,6 @@ import com.example.urbandictionaryapp.model.ListItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -24,11 +23,11 @@ import java.util.Locale;
 
 public class UrbanAdapter extends RecyclerView.Adapter<UrbanAdapter.ViewHolder> {
 
-    private static List<ListItem> itemList;
+    private List<ListItem> itemList;
 
     private static final String TAG = "TAG_UrbanAdapter";
 
-    public UrbanAdapter(List<ListItem> itemList) {
+    UrbanAdapter(List<ListItem> itemList) {
         this.itemList = itemList;
     }
 
@@ -72,7 +71,7 @@ public class UrbanAdapter extends RecyclerView.Adapter<UrbanAdapter.ViewHolder> 
         TextView thumbsUpTV;
         TextView thumbsDownTV;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             wordTV = itemView.findViewById(R.id.wordTV);

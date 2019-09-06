@@ -7,7 +7,6 @@ public class UrlConstants {
            "https://mashape-community-urban-dictionary.p.rapidapi.com/";
    public static final String QUERY_TERM = "term";
    public static final String HOST_TITLE1 = "x-rapidapi-host";
-   //TODO FILL THIS SHIT OUT BOI
    public static final String HOST_DESC1 = "mashape-community-urban-dictionary.p.rapidapi.com";
 
    public static final String HOST_TITLE2 = "x-rapidapi-key";

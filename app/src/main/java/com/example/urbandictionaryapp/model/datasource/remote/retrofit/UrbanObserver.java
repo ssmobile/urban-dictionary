@@ -7,7 +7,6 @@ import com.example.urbandictionaryapp.model.events.UrbanResponseEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
-import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
