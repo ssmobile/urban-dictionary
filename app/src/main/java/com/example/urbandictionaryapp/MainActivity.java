@@ -26,11 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG_MainActivity";
 
-    List<ListItem> itemList;
-    EditText searchET;
-    RecyclerView recyclerView;
-    UrbanAdapter adapter;
-    ProgressBar progressBar;
+    private List<ListItem> itemList;
+    private EditText searchET;
+    private RecyclerView recyclerView;
+    private UrbanAdapter adapter;
+    private ProgressBar progressBar;
+    private Menu menu;
+    private boolean thumbsUpAscending = true;
+    private boolean thumbsDownAscending = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +80,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        this.menu = menu;
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -93,11 +97,32 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.thumbsUpMenuItem:
                 Log.d(TAG, "onOptionsItemSelected: ");
-                adapter.sortByThumbsUp();
+                adapter.sortByThumbsUpAscending(thumbsUpAscending);
+                menu.getItem(0).setVisible(true);
+                menu.getItem(2).setVisible(false);
+
+                if (thumbsUpAscending) {
+                    menu.getItem(0).setTitle(getString(R.string.up_arrow));
+                } else {
+                    menu.getItem(0).setTitle(getString(R.string.down_arrow));
+                }
+
+
+                thumbsUpAscending = !thumbsUpAscending;
                 break;
             case R.id.thumbsDownMenuItem:
                 Log.d(TAG, "onOptionsItemSelected: ");
-                adapter.sortByThumbsDown();
+                adapter.sortByThumbsDown(thumbsDownAscending);
+                menu.getItem(2).setVisible(true);
+                menu.getItem(0).setVisible(false);
+
+                if (thumbsDownAscending) {
+                    menu.getItem(2).setTitle(getString(R.string.up_arrow));
+                } else {
+                    menu.getItem(2).setTitle(getString(R.string.down_arrow));
+                }
+
+                thumbsDownAscending = !thumbsDownAscending;
                 break;
         }
 
@@ -107,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v) {
         if (v.getId() == R.id.search_btn) {
             progressBar.setVisibility(View.VISIBLE);
+            menu.getItem(0).setVisible(false);
+            menu.getItem(2).setVisible(false);
+            thumbsUpAscending = true;
+            thumbsDownAscending = true;
+
             recyclerView.setBackground(null);
             String query = searchET.getText().toString();
             new UrbanAsyncTask().execute(query);

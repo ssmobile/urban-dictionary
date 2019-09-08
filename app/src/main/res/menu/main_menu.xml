@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/arrowForThumbsUp"
+        android:title="@string/up_arrow"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/thumbsUpMenuItem"
         android:title="@string/thumbs_up"
         android:icon="@drawable/ic_thumb_up_white_24dp"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/arrowForThumbsDown"
+        android:title="@string/down_arrow"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 
     <item

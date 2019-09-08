@@ -123,35 +123,57 @@ public class UrbanAdapter extends RecyclerView.Adapter<UrbanAdapter.ViewHolder> 
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void sortByThumbsUp() {
+    void sortByThumbsUpAscending(boolean ascending) {
+        Comparator<ListItem> comparator = new ThumbsComparator(ascending, true);
+        Log.d(TAG, "sortByThumbsUpAscending: itemlist:" + itemList.toString());
+        itemList.sort(comparator);
 
-        Log.d(TAG, "sortByThumbsUp: itemlist:" + itemList.toString());
-        itemList.sort(new Comparator<ListItem>() {
-            @Override
-            public int compare(ListItem listItem, ListItem t1) {
-                return Integer.compare(t1.getThumbsUp(),listItem.getThumbsUp());
-            }
-        });
-
-        Log.d(TAG, "sortByThumbsUp: itemlist:" + itemList.toString());
+        Log.d(TAG, "sortByThumbsUpAscending: itemlist:" + itemList.toString());
 
         notifyDataSetChanged();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void sortByThumbsDown() {
+    void sortByThumbsDown(boolean ascending) {
+        Comparator<ListItem> comparator = new ThumbsComparator(ascending, false);
 
         Log.d(TAG, "sortByThumbsDown: itemlist:" + itemList.toString());
-        itemList.sort(new Comparator<ListItem>() {
-            @Override
-            public int compare(ListItem listItem, ListItem t1) {
-                return Integer.compare(t1.getThumbsDown(),listItem.getThumbsDown());
-            }
-        });
+        itemList.sort(comparator);
 
         Log.d(TAG, "sortByThumbsDown: itemlist:" + itemList.toString());
 
         notifyDataSetChanged();
     }
+
+
+    class ThumbsComparator implements Comparator<ListItem> {
+
+        boolean ascending;
+        boolean thumbsup;
+
+        ThumbsComparator(boolean ascending, boolean thumbsup) {
+            this.ascending = ascending;
+            this.thumbsup = thumbsup;
+        }
+
+        @Override
+        public int compare(ListItem listItem, ListItem t1) {
+            if (ascending) {
+                if (thumbsup) {
+                    return Integer.compare(t1.getThumbsUp(), listItem.getThumbsUp());
+                }
+
+                return Integer.compare(t1.getThumbsDown(), listItem.getThumbsDown());
+
+            } else {
+                if (thumbsup) {
+                    return Integer.compare(listItem.getThumbsUp(), t1.getThumbsUp());
+                }
+
+                return Integer.compare(listItem.getThumbsDown(), t1.getThumbsDown());
+            }
+        }
+    }
+
 
 }
