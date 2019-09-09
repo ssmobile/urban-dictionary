@@ -7,13 +7,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.example.urbandictionaryapp.animation.MyBounceInterpolator;
 import com.example.urbandictionaryapp.model.ListItem;
 import com.example.urbandictionaryapp.model.UrbanResponse;
 import com.example.urbandictionaryapp.model.events.UrbanResponseEvent;
@@ -97,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.thumbsUpMenuItem:
                 Log.d(TAG, "onOptionsItemSelected: ");
-                adapter.sortByThumbsUpAscending(thumbsUpAscending);
+                adapter.sortByThumbs(thumbsUpAscending, true);
                 menu.getItem(0).setVisible(true);
                 menu.getItem(2).setVisible(false);
 
@@ -112,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.thumbsDownMenuItem:
                 Log.d(TAG, "onOptionsItemSelected: ");
-                adapter.sortByThumbsDown(thumbsDownAscending);
+                adapter.sortByThumbs(thumbsDownAscending, false);
                 menu.getItem(2).setVisible(true);
                 menu.getItem(0).setVisible(false);
 
@@ -131,12 +138,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View v) {
         if (v.getId() == R.id.search_btn) {
+            final Animation bounceAnim = AnimationUtils.loadAnimation(this,R.anim.bounce);
+            MyBounceInterpolator interpolator = new MyBounceInterpolator(0.05,40);
+            bounceAnim.setInterpolator(interpolator);
+            v.startAnimation(bounceAnim);
             progressBar.setVisibility(View.VISIBLE);
             menu.getItem(0).setVisible(false);
             menu.getItem(2).setVisible(false);
             thumbsUpAscending = true;
             thumbsDownAscending = true;
-
             recyclerView.setBackground(null);
             String query = searchET.getText().toString();
             new UrbanAsyncTask().execute(query);
