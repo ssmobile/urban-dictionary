@@ -107,8 +107,15 @@ public class UrbanAdapter extends RecyclerView.Adapter<UrbanAdapter.ViewHolder> 
         long nowMillis = new Date().getTime() + timemillis[3]*4;
         long diff = nowMillis - repoMillis;
 
+        if (diff < timemillis[2]) { return "Posted today"; }
+
+        if (diff < timemillis[2]*2) { return "Posted yesterday"; }
+
         for (int i=0 ; i<timemillis.length ; i++) {
             long interval = diff/timemillis[i];
+
+
+
             if (interval !=0) {
                 String suffix = (interval == 1) ? "" : "s";
                 result = String.format(Locale.US,
@@ -123,28 +130,11 @@ public class UrbanAdapter extends RecyclerView.Adapter<UrbanAdapter.ViewHolder> 
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void sortByThumbsUpAscending(boolean ascending) {
-        Comparator<ListItem> comparator = new ThumbsComparator(ascending, true);
-        Log.d(TAG, "sortByThumbsUpAscending: itemlist:" + itemList.toString());
+    void sortByThumbs(boolean ascending, boolean thumbsUp) {
+        Comparator<ListItem> comparator = new ThumbsComparator(ascending, thumbsUp);
         itemList.sort(comparator);
-
-        Log.d(TAG, "sortByThumbsUpAscending: itemlist:" + itemList.toString());
-
         notifyDataSetChanged();
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    void sortByThumbsDown(boolean ascending) {
-        Comparator<ListItem> comparator = new ThumbsComparator(ascending, false);
-
-        Log.d(TAG, "sortByThumbsDown: itemlist:" + itemList.toString());
-        itemList.sort(comparator);
-
-        Log.d(TAG, "sortByThumbsDown: itemlist:" + itemList.toString());
-
-        notifyDataSetChanged();
-    }
-
 
     class ThumbsComparator implements Comparator<ListItem> {
 
